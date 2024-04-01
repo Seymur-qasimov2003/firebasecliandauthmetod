@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "941060016098",
+    "project_id": "fir-clitestproject",
+    "storage_bucket": "fir-clitestproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941060016098:android:526bbd59a7c1522b0b5bbb",
+        "android_client_info": {
+          "package_name": "com.testflutterfirecli.project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdKbKrGtpwEcfqov7JA92haf_6LCbvPV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
