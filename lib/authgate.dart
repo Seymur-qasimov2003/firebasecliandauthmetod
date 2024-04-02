@@ -15,16 +15,18 @@ class AuthGate extends StatefulWidget {
 class _AuthGateState extends State<AuthGate> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return const HomePage();
-        } else {
-          return const SigninPage();
-        }
-      },
-    ));
+    return SafeArea(
+      child: Scaffold(
+          body: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomePage();
+          } else {
+            return const SigninPage();
+          }
+        },
+      )),
+    );
   }
 }

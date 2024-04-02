@@ -16,6 +16,8 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  bool isObscurePassword1 = true;
+  bool isObscureConfirmPassword = true;
 
   ///register function
   register() async {
@@ -23,10 +25,37 @@ class _RegisterPageState extends State<RegisterPage> {
       if (passwordController.text == confirmPasswordController.text) {
         await authService.signUp(
             email: emailController.text, password: passwordController.text);
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-            (route) => false);
+
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          // false = user must tap button, true = tap outside dialog
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: const Text('Bilgilendirme'),
+              content: const Text('Kayıt başarılı'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Tamam'),
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        CupertinoPageRoute(builder: (context) => SigninPage()),
+                        (route) => false);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+
+        // Navigator.pushAndRemoveUntil(
+        //     context,
+        //     CupertinoPageRoute(builder: (context) => SigninPage()),
+        //     (route) => false);
       } else {
         showDialog(
           context: context,
@@ -65,22 +94,45 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Register'),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Register Page'),
 
+              ClipRRect(
+                borderRadius: BorderRadius.circular(400),
+                child: Image(
+                  image: AssetImage('assets/appimage.png'),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               ///text field for email
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your email',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter your email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    prefixIcon: Icon(Icons.email),
+                  ),
                 ),
               ),
               SizedBox(
@@ -88,10 +140,35 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
 
               ///text field for password
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your password',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter your password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(isObscurePassword1
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          isObscurePassword1 = !isObscurePassword1;
+                        });
+                      },
+                    ),
+                  ),
+                  obscureText: isObscurePassword1,
                 ),
               ),
               SizedBox(
@@ -99,20 +176,54 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
 
               ///confirm password
-              TextField(
-                controller: confirmPasswordController,
-                decoration: const InputDecoration(
-                  hintText: 'Confirm your password',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: confirmPasswordController,
+                  decoration: InputDecoration(
+                    hintText: 'Confirm your password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(isObscureConfirmPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          isObscureConfirmPassword = !isObscureConfirmPassword;
+                        });
+                      },
+                    ),
+                  ),
+                  obscureText: isObscureConfirmPassword,
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent[100],
+                  foregroundColor: Colors.white,
+                  fixedSize: const Size(200, 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 onPressed: () {
                   register();
                 },
-                child: const Text('Register'),
+                child: const Text('Sign In'),
               ),
             ],
           ),
