@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterfirebasecli/pages/homepage.dart';
 import 'package:flutterfirebasecli/pages/signinpage.dart';
+import 'package:flutterfirebasecli/services/firebasepushnotfication.dart';
 import 'authgate.dart';
 import 'firebase_options.dart';
 
@@ -23,6 +24,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // await FirebaseMessagingService().initFirebaseMessaging();
   runApp(MyApp());
 }
 
